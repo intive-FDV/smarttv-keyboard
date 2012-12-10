@@ -8,27 +8,50 @@
           window.initializeApp();
         };
   </script>
-  <link rel="stylesheet" href="$MANAGER_WIDGET/Common/IME/ime2.css">
 </head>
 <body onload="onLoadDom();">
 <div id="log" style="visibility:visible;display:block;position:fixed;z-index:10000;float:right;top:0;right:0;max-width:75%;max-height:100%;background-color:rgba(0,0,0,0.7);color:#00a300;font-size:16px;overflow:hidden;"></div>
-<textarea  id="testInput" cols=25 rows=5 onclick="javascript:ime._focus();"></textarea>
-<script type="text/javascript" src="$MANAGER_WIDGET/Common/OpenSrc/jquery-1.4.2.min.js"></script>
-
+  <input  id="testInput" cols=25 rows=5 onclick="javascript:ime._focus();"></input>
   <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Widget.js"></script>
   <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/Plugin.js"></script>
   <script type="text/javascript" src="$MANAGER_WIDGET/Common/API/TVKeyValue.js"></script>
   <script type="text/javascript" src="$MANAGER_WIDGET/Common/Util/Include.js"></script>
   <script type="text/javascript" src="$MANAGER_WIDGET/Common/Util/Language.js"></script>
   <script type="text/javascript" src="$MANAGER_WIDGET/Common/Plugin/Define.js"></script>
-  <script type="text/javascript" src="$MANAGER_WIDGET/Common/IME/imecore2.js"></script>
-  <script type="text/javascript" src="$MANAGER_WIDGET/Common/IME/ime2.js"></script>
-<!--<script type="text/javascript" src="ime2.js"></script>-->
- <script type="text/javascript" src="$MANAGER_WIDGET/Common/IME_XT9/ime.js"></script>
 
 
-  <script type="text/javascript" src="application.js"></script>
-
+  <script type="text/javascript" src="assets/application.js"></script>
+<style>
+    .keyboard {
+      width: 300px;
+    }
+    .keyboard button {
+      width: 30%;
+      float: left;
+      margin-left: 3%;
+    }
+</style>
+  <div class="keyboard">
+      <div class="page1">
+      <!-- line 1 -->
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <!-- line 2 -->
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <!-- line 3 -->
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <!-- line 4 -->
+      <button>10</button>
+      <button>11</button>
+      <button>12</button>
+      <div style="clear:both"></div>
+    </div>
+  </div>
 
   
 </body>

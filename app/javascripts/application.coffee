@@ -1,4 +1,4 @@
-#= require "vendor/jquery-min"
+#= require "vendor/all"
 
 # Nettv's Key Constants for Browser
 _.defaults window,
