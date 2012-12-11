@@ -14,7 +14,6 @@ markup = ->
       }
   </style>
     <div class="keyboard">
-        <div class="page1">
         <!-- line 1 -->
         <button>1</button>
         <button>2</button>
@@ -28,11 +27,10 @@ markup = ->
         <button>8</button>
         <button>9</button>
         <!-- line 4 -->
-        <button>10</button>
-        <button>11</button>
-        <button>12</button>
+        <button></button>
+        <button>0<br>&#8592;</button>
+        <button></button>
         <div style="clear:both"></div>
-      </div>
     </div>
   """
 
@@ -136,11 +134,13 @@ onKeyDown = (e) ->
     #TODO update layout
     recentlyPressedKey = null
     e.preventDefault()
+    keyboardView.updateLayout()
   else if e.keyCode == Platform.keyCodes.VK_FAST_FWD
     activePage = ++activePage % pages.length
     #TODO update layout
     recentlyPressedKey = null
     e.preventDefault()
+    keyboardView.updateLayout()
   else
     list = charsForKey(e.keyCode)
     return unless list?.length > 0
@@ -181,8 +181,16 @@ class Input extends Backbone.View
     value = @$el.val()
     @$el.val value.replace /.$/, char
 
-    
+keys = ['VK_1','VK_2','VK_3','VK_4','VK_5','VK_6','VK_7','VK_8','VK_9']
 class KeyboardView extends Backbone.View
+
+
+  updateLayout: =>
+    x = 0
+    while x < 9
+      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].join('')}"
+      ++x
+
   show:  ->
     @$el.show()
 
@@ -191,6 +199,7 @@ class KeyboardView extends Backbone.View
 
   initialize: ->
     @hide()
+    @updateLayout()
 
 
 Keyboard.show = (input) ->
@@ -207,12 +216,12 @@ Keyboard.hide = ->
   keyboardView.hide()
 
 
-onLoad = ->
-  $("body").append markup()
-  keyboardView = new KeyboardView el: $(".keyboard")[0]
-
+#onLoad = ->
+$("body").append markup()
+keyboardView = new KeyboardView el: $(".keyboard")[0]
 window.Keyboard = Keyboard
-window.addEventListener("load", onLoad, true)
+
+#window.addEventListener("load", onLoad, true)
       
 # export
 window.Input = Input
