@@ -1,5 +1,46 @@
+#= require 'vendor/jquery-min'
 #= require 'vendor/backbone-min'
+
+markup = ->
+  """<style>
+      .keyboard {
+        width: 300px;
+        background-color: blue;
+      }
+      .keyboard button {
+        width: 30%;
+        float: left;
+        margin-left: 3%;
+      }
+  </style>
+    <div class="keyboard">
+        <div class="page1">
+        <!-- line 1 -->
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <!-- line 2 -->
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <!-- line 3 -->
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <!-- line 4 -->
+        <button>10</button>
+        <button>11</button>
+        <button>12</button>
+        <div style="clear:both"></div>
+      </div>
+    </div>
+  """
+
+
+
 Keyboard = {}
+keyboardView = {}
+
 #TODO: MUST USE KEYCODES FROM PLATFORM KEY_CODES ??? Or directly use the keyCode constants froms window.KEYCONSTANT
 Platform =
   keyCodes: #Based on LG's key codes
@@ -93,27 +134,22 @@ onKeyPress = (e) ->
 
 class Input extends Backbone.View
   events:
-    'focusin'  : 'onFocusIn'
     'focusout' : 'onFocusOut'
     'keydown'  : 'f1'
     'keypress' : 'f2'
     'keyup'    : 'f3'
 
-  initialize: ->
-    @keyboard = @options.keyboard
-    
-  onFocusIn: ->
-    @keyboard.show(@)
-    
   onFocusOut: ->
-    @keyboard.hide()
+    Keyboard.hide()
 
   f1: (e) ->
-    @keyboard.f1 e
+    Keyboard.f1 e
+
   f2: (e) ->
-    @keyboard.f2  e
+    Keyboard.f2  e
+
   f3: (e) ->
-    @keyboard.f3 e
+    Keyboard.f3 e
     
   addCharacter: (char) =>
     value = @$el.val() + char
@@ -124,41 +160,54 @@ class Input extends Backbone.View
     value.replace /.$/,''
     @$el.val value
 
-
-
 class KeyboardView extends Backbone.View
-  events:
-    'keydown'      : 'f1'
-    'keypress'     : 'f2'
-    'keyup'        : 'f3'
-    'click button' : 'f4'
-
-
   show: (input) ->
-    @input = input
+    console.log "SHOW KE_YBOARD"
     @$el.show()
+
   hide: ->
     @input = undefined
     @$el.hide()
-    
-  f1: (e) ->
-    console.log 'keydown ' + e
-  f2: (e) ->
-    console.log 'keypress ' + e
-  f3: (e) ->
-    console.log 'keyup ' + e
-  f4: (e) ->
-    console.log 'click ' + e
+
+  initialize: ->
+    @hide()
+
+#  focusinInput: (input) ->
+
 
 #  window.addEventListener("keydown", OnRemoteKeyDown, true);
 #  window.addEventListener("keyup", OnRemoteKeyUp, true);
 #  window.addEventListener("mouseon", OnMouseOn, true);
 #  window.addEventListener("mouseoff", OnMouseOff, true);
+activeInput = null
+Keyboard.show = (input) ->
+  activeInput = new Input el: input
+  keyboardView.show input
 
-      
+Keyboard.hide = ->
+  activeInput = null
+  keyboardView.hide()
+
+Keyboard.f1 = (e) ->
+    console.log 'keydown ' + e
+    e.preventDefault()
+Keyboard.f2 = (e) ->
+    console.log 'keypress ' + e
+    e.preventDefault()
+Keyboard.f3 = (e) ->
+    console.log 'keyup ' + e
+    e.preventDefault()
+
+
+onLoad = ->
+  $("body").append markup()
+  keyboardView = new KeyboardView el: $(".keyboard")[0]
+  window.Keyboard = Keyboard
+
+window.addEventListener("load", onLoad)
       
 # export
 window.Input = Input
-window.KeyboardView = KeyboardView
+
 
   

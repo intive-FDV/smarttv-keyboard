@@ -25,15 +25,20 @@ window.log = (message) ->
   $('#log').prepend(message + ' <br />')
 
 
+class Application extends Backbone.View
+  events:
+    'focus input' : 'setKeyboard'
+
+  setKeyboard: (e) ->
+    Keyboard.show e.target
+
 
 window.initializeApp = ->
-  keyboard = new KeyboardView el: $('.keyboard')[0]
-  keyboard.hide()
-  input = new Input
-    el: $('#testInput')[0]
-    keyboard: keyboard
- 	widgetAPI = new Common.API.Widget();
- 	widgetAPI.sendReadyEvent();
-
+  try
+ 	  widgetAPI = new Common.API.Widget();
+ 	  widgetAPI.sendReadyEvent();
+  catch e
+    null
+  window.app = new Application el: $("body")[0]
 
 window.log ?= -> null
