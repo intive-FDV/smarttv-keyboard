@@ -119,7 +119,7 @@ charsForKey  = (keyCode) ->
 #  for key, value of Platform.keyCodes
 #    if value == keyCode
 #      return pages[0][key]
-  return pages[activePage][ReverseKeyCodes[keyCode]] if ReverseKeyCodes[keyCode]
+  return pages[activePage][reverseKeyCodes[keyCode]] if reverseKeyCodes[keyCode]
 
 onKeyPress = (e) ->
   if e.keyCode == Platform.keyCodes.VK_0
@@ -135,21 +135,10 @@ onKeyPress = (e) ->
 class Input extends Backbone.View
   events:
     'focusout' : 'onFocusOut'
-    'keydown'  : 'f1'
-    'keypress' : 'f2'
-    'keyup'    : 'f3'
-
-  onFocusOut: ->
+  
+  onFocusOut: =>
+    @undelegateEvents()
     Keyboard.hide()
-
-  f1: (e) ->
-    Keyboard.f1 e
-
-  f2: (e) ->
-    Keyboard.f2  e
-
-  f3: (e) ->
-    Keyboard.f3 e
     
   addCharacter: (char) =>
     value = @$el.val() + char
@@ -161,12 +150,10 @@ class Input extends Backbone.View
     @$el.val value
 
 class KeyboardView extends Backbone.View
-  show: (input) ->
-    console.log "SHOW KE_YBOARD"
+  show:  ->
     @$el.show()
 
   hide: ->
-    @input = undefined
     @$el.hide()
 
   initialize: ->
@@ -180,23 +167,34 @@ class KeyboardView extends Backbone.View
 #  window.addEventListener("mouseon", OnMouseOn, true);
 #  window.addEventListener("mouseoff", OnMouseOff, true);
 activeInput = null
+recentlyPressedKey = null
+
+
 Keyboard.show = (input) ->
+  window.addEventListener("keydown", Keyboard.onKeyDown, true);
+  window.addEventListener("keyup", Keyboard.onKeyUp, true);
   activeInput = new Input el: input
-  keyboardView.show input
+  keyboardView.show()
 
 Keyboard.hide = ->
+  window.removeEventListener("keydown", Keyboard.onKeyDown);
+  window.removeEventListener("keyup", Keyboard.onKeyUp);
   activeInput = null
+  recentlyPressedKey = null
   keyboardView.hide()
 
-Keyboard.f1 = (e) ->
-    console.log 'keydown ' + e
-    e.preventDefault()
+Keyboard.onKeyDown = (e) ->
+  console.log 'keydown ' + e
+  activeInput.addCharacter (onKeyPress e)[0]
+  e.preventDefault()
+
 Keyboard.f2 = (e) ->
-    console.log 'keypress ' + e
-    e.preventDefault()
-Keyboard.f3 = (e) ->
-    console.log 'keyup ' + e
-    e.preventDefault()
+  console.log 'keypress ' + e
+  e.preventDefault()
+
+Keyboard.onKeyUp = (e) ->
+  console.log 'keyup ' + e
+  e.preventDefault()
 
 
 onLoad = ->
