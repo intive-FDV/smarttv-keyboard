@@ -296,8 +296,8 @@ else #in case of a browser, sets some needed keys to numeric keys
   Platform.keyCodes.VK_PLAY=     49  #number 1
   Platform.keyCodes.VK_PAUSE=    50  #number 2
   Platform.keyCodes.VK_STOP=     51  #number 3
-  Platform.keyCodes.VK_REWIND=   52  #4
-  Platform.keyCodes.VK_FAST_FWD= 53  #5
+  Platform.keyCodes.VK_REWIND=   112  #F1
+  Platform.keyCodes.VK_FAST_FWD= 113  #F2
 
   Platform.keyCodes.VK_RED =     55 #7
   Platform.keyCodes.VK_GREEN=    56 #8

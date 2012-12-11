@@ -115,23 +115,53 @@ pages = [
   }
 ]
 
+activeInput = null
+recentlyPressedKey = null
+i = 0
+timeoutID = 0
+
 charsForKey  = (keyCode) ->
 #  for key, value of Platform.keyCodes
 #    if value == keyCode
 #      return pages[0][key]
   return pages[activePage][reverseKeyCodes[keyCode]] if reverseKeyCodes[keyCode]
 
-onKeyPress = (e) ->
+onKeyDown = (e) ->
   if e.keyCode == Platform.keyCodes.VK_0
-    # DELETE
+    activeInput.backspace()
+    recentlyPressedKey = null
+    e.preventDefault()
   else if e.keyCode == Platform.keyCodes.VK_REWIND
-    # PAGES--
+    activePage = (--activePage + pages.length) % pages.length
+    #TODO update layout
+    recentlyPressedKey = null
+    e.preventDefault()
   else if e.keyCode == Platform.keyCodes.VK_FAST_FWD
-    # PAGES++
+    activePage = ++activePage % pages.length
+    #TODO update layout
+    recentlyPressedKey = null
+    e.preventDefault()
   else
-    #DO SOMETHING WITH:
-    charsForKey(e.keyCode)
-
+    list = charsForKey(e.keyCode)
+    return unless list?.length > 0
+    
+    e.preventDefault()
+    if recentlyPressedKey is e.keyCode
+      activeInput.replaceLast list[i++]
+      i %= list.length
+    else
+      i = 0
+      activeInput.addCharacter list[i++]
+      recentlyPressedKey = e.keyCode
+      
+onKeyUp = (e) ->
+  timeout = ->
+    recentlyPressedKey = null
+    i = 0
+  clearTimeout timeoutID if timeoutID
+  timeoutID = setTimeout(timeout, 2000)
+  e.preventDefault()
+  
 class Input extends Backbone.View
   events:
     'blur' : 'onFocusOut'
@@ -162,57 +192,19 @@ class KeyboardView extends Backbone.View
   initialize: ->
     @hide()
 
-#  focusinInput: (input) ->
-
-
-#  window.addEventListener("keydown", OnRemoteKeyDown, true);
-#  window.addEventListener("keyup", OnRemoteKeyUp, true);
-#  window.addEventListener("mouseon", OnMouseOn, true);
-#  window.addEventListener("mouseoff", OnMouseOff, true);
-activeInput = null
-recentlyPressedKey = null
-i = 0
-timeoutID = 0
-
 
 Keyboard.show = (input) ->
-  window.addEventListener("keydown", Keyboard.onKeyDown, true);
-  window.addEventListener("keyup", Keyboard.onKeyUp, true);
+  window.addEventListener("keydown", onKeyDown, true);
+  window.addEventListener("keyup", onKeyUp, true);
   activeInput = new Input el: input
   keyboardView.show()
 
 Keyboard.hide = ->
-  window.removeEventListener("keydown", Keyboard.onKeyDown);
-  window.removeEventListener("keyup", Keyboard.onKeyUp);
+  window.removeEventListener("keydown", onKeyDown);
+  window.removeEventListener("keyup", onKeyUp);
   activeInput = null
   recentlyPressedKey = null
   keyboardView.hide()
-
-Keyboard.onKeyDown = (e) ->
-  
-  console.log 'keydown ' + e
-  list = (onKeyPress e)
-  if recentlyPressedKey is e.keyCode
-    activeInput.replaceLast list[i++]
-    i = (i + list.length) % list.length
-  else
-    i = 0
-    activeInput.addCharacter list[i++]
-    recentlyPressedKey = e.keyCode
-  e.preventDefault()
-
-Keyboard.f2 = (e) ->
-  console.log 'keypress ' + e
-  e.preventDefault()
-
-Keyboard.onKeyUp = (e) ->  
-  timeout = ->
-    recentlyPressedKey = null
-    i = 0
-  clearTimeout timeoutID if timeoutID 
-  timeoutID = setTimeout(timeout, 2000)
-  console.log 'keyup ' + e
-  e.preventDefault()
 
 
 onLoad = ->

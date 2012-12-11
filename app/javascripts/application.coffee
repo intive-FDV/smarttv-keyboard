@@ -24,7 +24,7 @@ _.defaults window,
 
 window.log = (message) ->
   $('#log').prepend(message + ' <br />')
-console.log = window.log
+console.log = window.log if Platform.isSamsung()
 
 class Application extends Backbone.View
   events:
