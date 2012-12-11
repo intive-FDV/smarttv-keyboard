@@ -42,51 +42,51 @@ Keyboard = {}
 keyboardView = {}
 
 #TODO: MUST USE KEYCODES FROM PLATFORM KEY_CODES ??? Or directly use the keyCode constants froms window.KEYCONSTANT
-Platform =
-  keyCodes: #Based on LG's key codes
-      VK_ENTER          : 13
-      VK_PAUSE          : 19
-      VK_PAGE_UP        : 33
-      VK_PAGE_DOWN      : 34
-      VK_LEFT           : 37
-      VK_UP             : 38
-      VK_RIGHT          : 39
-      VK_DOWN           : 40
-
-      VK_HID_BACK       : 8
-      VK_HID_HOME       : 36
-      VK_HID_END        : 35
-      VK_HID_INSERT     : 45
-      VK_HID_DEL        : 46
-      VK_HID_ESC        : 461
-      VK_HID_CTRL       : 17
-      VK_HID_ALT        : 18
-
-      VK_CAPS_LOCK      : 20
-      VK_SHIFT          : 16
-      VK_LANG_SEL       : 229
-
-      VK_0              : 48
-      VK_1              : 49
-      VK_2              : 50
-      VK_3              : 51
-      VK_4              : 52
-      VK_5              : 53
-      VK_6              : 54
-      VK_7              : 55
-      VK_8              : 56
-      VK_9              : 57
-
-      VK_RED            : 403
-      VK_GREEN          : 404
-      VK_YELLOW         : 405
-      VK_BLUE           : 406
-      VK_REWIND         : 412
-      VK_STOP           : 413
-      VK_PLAY           : 415
-      VK_FAST_FWD       : 417
-      VK_INFO           : 457
-      VK_BACK           : 461
+#Platform =
+#  keyCodes: #Based on LG's key codes
+#      VK_ENTER          : 13
+#      VK_PAUSE          : 19
+#      VK_PAGE_UP        : 33
+#      VK_PAGE_DOWN      : 34
+#      VK_LEFT           : 37
+#      VK_UP             : 38
+#      VK_RIGHT          : 39
+#      VK_DOWN           : 40
+#
+#      VK_HID_BACK       : 8
+#      VK_HID_HOME       : 36
+#      VK_HID_END        : 35
+#      VK_HID_INSERT     : 45
+#      VK_HID_DEL        : 46
+#      VK_HID_ESC        : 461
+#      VK_HID_CTRL       : 17
+#      VK_HID_ALT        : 18
+#
+#      VK_CAPS_LOCK      : 20
+#      VK_SHIFT          : 16
+#      VK_LANG_SEL       : 229
+#
+#      VK_0              : 48
+#      VK_1              : 49
+#      VK_2              : 50
+#      VK_3              : 51
+#      VK_4              : 52
+#      VK_5              : 53
+#      VK_6              : 54
+#      VK_7              : 55
+#      VK_8              : 56
+#      VK_9              : 57
+#
+#      VK_RED            : 403
+#      VK_GREEN          : 404
+#      VK_YELLOW         : 405
+#      VK_BLUE           : 406
+#      VK_REWIND         : 412
+#      VK_STOP           : 413
+#      VK_PLAY           : 415
+#      VK_FAST_FWD       : 417
+#      VK_INFO           : 457
+#      VK_BACK           : 461
 
 reverseKeyCodes = {}
 reverseKeyCodes[Platform.keyCodes.VK_0] = 'VK_0'
@@ -134,7 +134,7 @@ onKeyPress = (e) ->
 
 class Input extends Backbone.View
   events:
-    'focusout' : 'onFocusOut'
+    'blur' : 'onFocusOut'
   
   onFocusOut: =>
     @undelegateEvents()
@@ -145,10 +145,13 @@ class Input extends Backbone.View
     @$el.val value
 
   backspace: =>
-    value = @$el.val()
-    value.replace /.$/,''
-    @$el.val value
+    @replaceLast ''
 
+  replaceLast: (char) =>
+    value = @$el.val()
+    @$el.val value.replace /.$/, char
+
+    
 class KeyboardView extends Backbone.View
   show:  ->
     @$el.show()
@@ -168,6 +171,8 @@ class KeyboardView extends Backbone.View
 #  window.addEventListener("mouseoff", OnMouseOff, true);
 activeInput = null
 recentlyPressedKey = null
+i = 0
+timeoutID = 0
 
 
 Keyboard.show = (input) ->
@@ -184,15 +189,28 @@ Keyboard.hide = ->
   keyboardView.hide()
 
 Keyboard.onKeyDown = (e) ->
+  
   console.log 'keydown ' + e
-  activeInput.addCharacter (onKeyPress e)[0]
+  list = (onKeyPress e)
+  if recentlyPressedKey is e.keyCode
+    activeInput.replaceLast list[i++]
+    i = (i + list.length) % list.length
+  else
+    i = 0
+    activeInput.addCharacter list[i++]
+    recentlyPressedKey = e.keyCode
   e.preventDefault()
 
 Keyboard.f2 = (e) ->
   console.log 'keypress ' + e
   e.preventDefault()
 
-Keyboard.onKeyUp = (e) ->
+Keyboard.onKeyUp = (e) ->  
+  timeout = ->
+    recentlyPressedKey = null
+    i = 0
+  clearTimeout timeoutID if timeoutID 
+  timeoutID = setTimeout(timeout, 2000)
   console.log 'keyup ' + e
   e.preventDefault()
 
@@ -200,9 +218,9 @@ Keyboard.onKeyUp = (e) ->
 onLoad = ->
   $("body").append markup()
   keyboardView = new KeyboardView el: $(".keyboard")[0]
-  window.Keyboard = Keyboard
 
-window.addEventListener("load", onLoad)
+window.Keyboard = Keyboard
+window.addEventListener("load", onLoad, true)
       
 # export
 window.Input = Input

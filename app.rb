@@ -18,7 +18,23 @@ options '/*' do
   200
 end
 
-get '/' do
-  erb :index
+get '/' do  
+  erb :index , :locals => {:@platform_string => platformString}
+end
 
+helpers do
+  def platformString
+    if request.params['platform']
+      request.params['platform'].upcase
+    elsif request.user_agent =~ /LG/i
+      "LG"
+    elsif request.user_agent =~ /Philips/i or request.user_agent =~ /Nettv/i
+      "PHILIPS"
+    elsif request.user_agent =~ /Maple/i
+      "SAMSUNG"
+    else
+      #"OTHER"
+      request.user_agent
+    end
+  end
 end
