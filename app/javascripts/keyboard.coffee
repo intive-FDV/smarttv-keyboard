@@ -1,30 +1,95 @@
 #= require 'vendor/backbone-min'
 Keyboard = {}
+#TODO: MUST USE KEYCODES FROM PLATFORM KEY_CODES ??? Or directly use the keyCode constants froms window.KEYCONSTANT
+Platform =
+  keyCodes: #Based on LG's key codes
+      VK_ENTER          : 13
+      VK_PAUSE          : 19
+      VK_PAGE_UP        : 33
+      VK_PAGE_DOWN      : 34
+      VK_LEFT           : 37
+      VK_UP             : 38
+      VK_RIGHT          : 39
+      VK_DOWN           : 40
+
+      VK_HID_BACK       : 8
+      VK_HID_HOME       : 36
+      VK_HID_END        : 35
+      VK_HID_INSERT     : 45
+      VK_HID_DEL        : 46
+      VK_HID_ESC        : 461
+      VK_HID_CTRL       : 17
+      VK_HID_ALT        : 18
+
+      VK_CAPS_LOCK      : 20
+      VK_SHIFT          : 16
+      VK_LANG_SEL       : 229
+
+      VK_0              : 48
+      VK_1              : 49
+      VK_2              : 50
+      VK_3              : 51
+      VK_4              : 52
+      VK_5              : 53
+      VK_6              : 54
+      VK_7              : 55
+      VK_8              : 56
+      VK_9              : 57
+
+      VK_RED            : 403
+      VK_GREEN          : 404
+      VK_YELLOW         : 405
+      VK_BLUE           : 406
+      VK_REWIND         : 412
+      VK_STOP           : 413
+      VK_PLAY           : 415
+      VK_FAST_FWD       : 417
+      VK_INFO           : 457
+      VK_BACK           : 461
+
+reverseKeyCodes = {}
+reverseKeyCodes[Platform.keyCodes.VK_0] = 'VK_0'
+reverseKeyCodes[Platform.keyCodes.VK_1] = 'VK_1'
+reverseKeyCodes[Platform.keyCodes.VK_2] = 'VK_2'
+reverseKeyCodes[Platform.keyCodes.VK_3] = 'VK_3'
+reverseKeyCodes[Platform.keyCodes.VK_4] = 'VK_4'
+reverseKeyCodes[Platform.keyCodes.VK_5] = 'VK_5'
+reverseKeyCodes[Platform.keyCodes.VK_6] = 'VK_6'
+reverseKeyCodes[Platform.keyCodes.VK_7] = 'VK_7'
+reverseKeyCodes[Platform.keyCodes.VK_8] = 'VK_8'
+reverseKeyCodes[Platform.keyCodes.VK_9] = 'VK_9'
+
+activePage = 0
 
 pages = [
   {
-    1: [' ','.',',']
-    2: ['a','b','c']
-    3: ['d','e','f']
-    4: ['g','h','i']
-    5: ['j','k','l']
-    6: ['m','n','o']
-    7: ['p','q','r', 's']
-    8: ['t','u','v']
-    9: ['w','x','y', 'z']
+    VK_1: [' ','.',','],      VK_2: ['a','b','c'], VK_3: ['d','e','f']
+    VK_4: ['g','h','i'],      VK_5: ['j','k','l'], VK_6: ['m','n','o']
+    VK_7: ['p','q','r', 's'], VK_8: ['t','u','v'], VK_9: ['w','x','y', 'z']
   }
   {
-    1: [' ','.',',']
-    2: ['A','B','C']
-    3: ['D','E','F']
-    4: ['G','H','I']
-    5: ['J','K','L']
-    6: ['M','N','O']
-    7: ['P','Q','R', 'S']
-    8: ['T','U','V']
-    9: ['W','X','Y', 'Z']
+    VK_1: [' ','.',','],      VK_2: ['A','B','C'], VK_3: ['D','E','F'],
+    VK_4: ['G','H','I'],      VK_5: ['J','K','L'], VK_6: ['M','N','O'],
+    VK_7: ['P','Q','R', 'S'], VK_8: ['T','U','V'], VK_9: ['W','X','Y', 'Z']
   }
 ]
+
+charsForKey  = (keyCode) ->
+#  for key, value of Platform.keyCodes
+#    if value == keyCode
+#      return pages[0][key]
+  return pages[activePage][ReverseKeyCodes[keyCode]] if ReverseKeyCodes[keyCode]
+
+onKeyPress = (e) ->
+  if e.keyCode == Platform.keyCodes.VK_0
+    # DELETE
+  else if e.keyCode == Platform.keyCodes.VK_REWIND
+    # PAGES--
+  else if e.keyCode == Platform.keyCodes.VK_FAST_FWD
+    # PAGES++
+  else
+    #DO SOMETHING WITH:
+    charsForKey(e.keyCode)
 
 class Input extends Backbone.View
   events:
@@ -84,6 +149,11 @@ class KeyboardView extends Backbone.View
     console.log 'keyup ' + e
   f4: (e) ->
     console.log 'click ' + e
+
+#  window.addEventListener("keydown", OnRemoteKeyDown, true);
+#  window.addEventListener("keyup", OnRemoteKeyUp, true);
+#  window.addEventListener("mouseon", OnMouseOn, true);
+#  window.addEventListener("mouseoff", OnMouseOff, true);
 
       
       
