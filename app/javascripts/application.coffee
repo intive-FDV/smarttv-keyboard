@@ -1,4 +1,5 @@
 #= require "vendor/all"
+#= require "keyboard"
 
 # Nettv's Key Constants for Browser
 _.defaults window,
@@ -26,6 +27,11 @@ window.log = (message) ->
 
 
 window.initializeApp = ->
+  keyboard = new KeyboardView el: $('.keyboard')[0]
+  keyboard.hide()
+  input = new Input
+    el: $('#testInput')[0]
+    keyboard: keyboard
  	widgetAPI = new Common.API.Widget();
  	widgetAPI.sendReadyEvent();
 
