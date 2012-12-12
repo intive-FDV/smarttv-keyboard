@@ -1,6 +1,10 @@
 #= require 'vendor/jquery-min'
 #= require 'vendor/backbone-min'
 
+#TODO Use the color keys for special functionallity of keyboard.
+#TODO Change Zero key functionallity to allow enter of '0' on iputs  (?).
+#TODO Allow enter characters holding a key.
+#TODO Complete keyboard's pages.
 markup = ->
   """<style>
       .keyboard {
@@ -168,7 +172,7 @@ class KeyboardView extends Backbone.View
   updateLayout: =>
     x = 0
     while x < 9
-      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].show or ' '}"
+      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].show or '&nbsp;'}"
       ++x
 
   show:  ->
