@@ -42,7 +42,7 @@ window.initializeApp = ->
   catch e
     null
   window.app = new Application el: $("body")[0]
-  setTimeout (-> $("input").focus()), 1000
-#  $("input").focus()
+#  setTimeout (-> $("input").focus()), 1000
+  $("input").focus()
 
 window.log ?= -> null

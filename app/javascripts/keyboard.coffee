@@ -1,10 +1,13 @@
 #= require 'vendor/jquery-min'
 #= require 'vendor/backbone-min'
 
+#TODO Check TODOs xD
 #TODO Use the color keys for special functionallity of keyboard.
 #TODO Change Zero key functionallity to allow enter of '0' on iputs  (?).
 #TODO Allow enter characters holding a key.
 #TODO Complete keyboard's pages.
+#TODO Add visual feedback when pressing a key.
+#TODO Add visual feedback when the current key pressed is looping (selecting or underlining the last character, for example)
 markup = ->
   """<style>
       .keyboard {
@@ -61,25 +64,25 @@ activePage = 0
 
 pages = [
   {
-    VK_1: {loop: [' ','.',',','1'],     hold: '1', show: ' .,'}
-    VK_2: {loop: ['a','b','c','2'],     hold: '2', show: 'abc'}
-    VK_3: {loop: ['d','e','f','3'],     hold: '3', show: 'def'}
-    VK_4: {loop: ['g','h','i','4'],     hold: '4', show: 'ghi'}
-    VK_5: {loop: ['j','k','l','5'],     hold: '5', show: 'jkl'}
-    VK_6: {loop: ['m','n','o','6','ñ'], hold: '6', show: 'mno'}
+    VK_1: {loop: [' ','.',',','1'],     hold: '1', show: ' .,' }
+    VK_2: {loop: ['a','b','c','2'],     hold: '2', show: 'abc' }
+    VK_3: {loop: ['d','e','f','3'],     hold: '3', show: 'def' }
+    VK_4: {loop: ['g','h','i','4'],     hold: '4', show: 'ghi' }
+    VK_5: {loop: ['j','k','l','5'],     hold: '5', show: 'jkl' }
+    VK_6: {loop: ['m','n','o','6','ñ'], hold: '6', show: 'mno' }
     VK_7: {loop: ['p','q','r','s','7'], hold: '7', show: 'pqrs'}
-    VK_8: {loop: ['t','u','v','8'],     hold: '8', show: 'tuv'}
+    VK_8: {loop: ['t','u','v','8'],     hold: '8', show: 'tuv' }
     VK_9: {loop: ['w','x','y','z','9'], hold: '9', show: 'wxyz'}
   },
   {
-    VK_1: {loop: [' ','.',',','1'],     hold: '1', show: ' .,'}
+    VK_1: {loop: [' ','.',',','1'],     hold: '1', show: ' .,' }
     VK_2: {loop: ['A','B','C','2'],     hold: '2', show:  'ABC'}
-    VK_3: {loop: ['D','E','F','3'],     hold: '3', show: 'DEF'}
-    VK_4: {loop: ['G','H','I','4'],     hold: '4', show: 'GHI'}
-    VK_5: {loop: ['J','K','L','5'],     hold: '5', show: 'JKL'}
-    VK_6: {loop: ['M','N','O','6','Ñ'], hold: '6', show: 'MNO'}
+    VK_3: {loop: ['D','E','F','3'],     hold: '3', show: 'DEF' }
+    VK_4: {loop: ['G','H','I','4'],     hold: '4', show: 'GHI' }
+    VK_5: {loop: ['J','K','L','5'],     hold: '5', show: 'JKL' }
+    VK_6: {loop: ['M','N','O','6','Ñ'], hold: '6', show: 'MNO' }
     VK_7: {loop: ['P','Q','R','S','7'], hold: '7', show: 'PQRS'}
-    VK_8: {loop: ['T','U','V','8'],     hold: '8', show: 'TUV'}
+    VK_8: {loop: ['T','U','V','8'],     hold: '8', show: 'TUV' }
     VK_9: {loop: ['W','X','Y','Z','9'], hold: '9', show: 'WXYZ'}
   },
   {
@@ -115,13 +118,11 @@ onKeyDown = (e) ->
     e.preventDefault()
   else if e.keyCode == Platform.keyCodes.VK_REWIND
     activePage = (--activePage + pages.length) % pages.length
-    #TODO update layout
     recentlyPressedKey = null
     e.preventDefault()
     keyboardView.updateLayout()
   else if e.keyCode == Platform.keyCodes.VK_FAST_FWD
     activePage = ++activePage % pages.length
-    #TODO update layout
     recentlyPressedKey = null
     e.preventDefault()
     keyboardView.updateLayout()
@@ -184,7 +185,6 @@ class KeyboardView extends Backbone.View
   initialize: ->
     @hide()
     @updateLayout()
-
 
 Keyboard.show = (input) ->
   window.addEventListener("keydown", onKeyDown, true);

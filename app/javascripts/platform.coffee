@@ -261,16 +261,16 @@ else if Platform.isSamsung()
 
   Platform.keyCodes.VK_BACK=     tvKey.KEY_RETURN
 
-  Platform.keyCodes.VK_0 = tvKey.KEY_0
-  Platform.keyCodes.VK_1 = tvKey.KEY_1
-  Platform.keyCodes.VK_2 = tvKey.KEY_2
-  Platform.keyCodes.VK_3 = tvKey.KEY_3
-  Platform.keyCodes.VK_4 = tvKey.KEY_4
-  Platform.keyCodes.VK_5 = tvKey.KEY_5
-  Platform.keyCodes.VK_6 = tvKey.KEY_6
-  Platform.keyCodes.VK_7 = tvKey.KEY_7
-  Platform.keyCodes.VK_8 = tvKey.KEY_8
-  Platform.keyCodes.VK_9 = tvKey.KEY_9
+  Platform.keyCodes.VK_0 =       tvKey.KEY_0
+  Platform.keyCodes.VK_1 =       tvKey.KEY_1
+  Platform.keyCodes.VK_2 =       tvKey.KEY_2
+  Platform.keyCodes.VK_3 =       tvKey.KEY_3
+  Platform.keyCodes.VK_4 =       tvKey.KEY_4
+  Platform.keyCodes.VK_5 =       tvKey.KEY_5
+  Platform.keyCodes.VK_6 =       tvKey.KEY_6
+  Platform.keyCodes.VK_7 =       tvKey.KEY_7
+  Platform.keyCodes.VK_8 =       tvKey.KEY_8
+  Platform.keyCodes.VK_9 =       tvKey.KEY_9
   
   Platform.exit = ->
     $("#video")[0]?.Stop()
