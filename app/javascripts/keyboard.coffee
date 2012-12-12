@@ -40,51 +40,6 @@ Keyboard = {}
 keyboardView = {}
 
 #TODO: MUST USE KEYCODES FROM PLATFORM KEY_CODES ??? Or directly use the keyCode constants froms window.KEYCONSTANT
-#Platform =
-#  keyCodes: #Based on LG's key codes
-#      VK_ENTER          : 13
-#      VK_PAUSE          : 19
-#      VK_PAGE_UP        : 33
-#      VK_PAGE_DOWN      : 34
-#      VK_LEFT           : 37
-#      VK_UP             : 38
-#      VK_RIGHT          : 39
-#      VK_DOWN           : 40
-#
-#      VK_HID_BACK       : 8
-#      VK_HID_HOME       : 36
-#      VK_HID_END        : 35
-#      VK_HID_INSERT     : 45
-#      VK_HID_DEL        : 46
-#      VK_HID_ESC        : 461
-#      VK_HID_CTRL       : 17
-#      VK_HID_ALT        : 18
-#
-#      VK_CAPS_LOCK      : 20
-#      VK_SHIFT          : 16
-#      VK_LANG_SEL       : 229
-#
-#      VK_0              : 48
-#      VK_1              : 49
-#      VK_2              : 50
-#      VK_3              : 51
-#      VK_4              : 52
-#      VK_5              : 53
-#      VK_6              : 54
-#      VK_7              : 55
-#      VK_8              : 56
-#      VK_9              : 57
-#
-#      VK_RED            : 403
-#      VK_GREEN          : 404
-#      VK_YELLOW         : 405
-#      VK_BLUE           : 406
-#      VK_REWIND         : 412
-#      VK_STOP           : 413
-#      VK_PLAY           : 415
-#      VK_FAST_FWD       : 417
-#      VK_INFO           : 457
-#      VK_BACK           : 461
 
 reverseKeyCodes = {}
 reverseKeyCodes[Platform.keyCodes.VK_0] = 'VK_0'
@@ -102,14 +57,26 @@ activePage = 0
 
 pages = [
   {
-    VK_1: [' ','.',','],      VK_2: ['a','b','c'], VK_3: ['d','e','f']
-    VK_4: ['g','h','i'],      VK_5: ['j','k','l'], VK_6: ['m','n','o']
-    VK_7: ['p','q','r', 's'], VK_8: ['t','u','v'], VK_9: ['w','x','y', 'z']
-  }
+    VK_1: {loop: [' ','.',',','1'],     hold: '1', show: ' .,'}
+    VK_2: {loop: ['a','b','c','2'],     hold: '2', show: 'abc'}
+    VK_3: {loop: ['d','e','f','3'],     hold: '3', show: 'def'}
+    VK_4: {loop: ['g','h','i','4'],     hold: '4', show: 'ghi'}
+    VK_5: {loop: ['j','k','l','5'],     hold: '5', show: 'jkl'}
+    VK_6: {loop: ['m','n','o','6','ñ'], hold: '6', show: 'mno'}
+    VK_7: {loop: ['p','q','r','s','7'], hold: '7', show: 'pqrs'}
+    VK_8: {loop: ['t','u','v','8'],     hold: '8', show: 'tuv'}
+    VK_9: {loop: ['w','x','y','z','9'], hold: '9', show: 'wxyz'}
+  },
   {
-    VK_1: [' ','.',','],      VK_2: ['A','B','C'], VK_3: ['D','E','F'],
-    VK_4: ['G','H','I'],      VK_5: ['J','K','L'], VK_6: ['M','N','O'],
-    VK_7: ['P','Q','R', 'S'], VK_8: ['T','U','V'], VK_9: ['W','X','Y', 'Z']
+    VK_1: {loop: [' ','.',',','1'],     hold: '1', show: ' .,'}
+    VK_2: {loop: ['A','B','C','2'],     hold: '2', show:  'ABC'}
+    VK_3: {loop: ['D','E','F','3'],     hold: '3', show: 'DEF'}
+    VK_4: {loop: ['G','H','I','4'],     hold: '4', show: 'GHI'}
+    VK_5: {loop: ['J','K','L','5'],     hold: '5', show: 'JKL'}
+    VK_6: {loop: ['M','N','O','6','Ñ'], hold: '6', show: 'MNO'}
+    VK_7: {loop: ['P','Q','R','S','7'], hold: '7', show: 'PQRS'}
+    VK_8: {loop: ['T','U','V','8'],     hold: '8', show: 'TUV'}
+    VK_9: {loop: ['W','X','Y','Z','9'], hold: '9', show: 'WXYZ'}
   }
 ]
 
@@ -119,13 +86,10 @@ i = 0
 timeoutID = 0
 
 charsForKey  = (keyCode) ->
-#  for key, value of Platform.keyCodes
-#    if value == keyCode
-#      return pages[0][key]
-  return pages[activePage][reverseKeyCodes[keyCode]] if reverseKeyCodes[keyCode]
+  return pages[activePage][reverseKeyCodes[keyCode]].loop if reverseKeyCodes[keyCode]
 
 onKeyDown = (e) ->
-  if e.keyCode == Platform.keyCodes.VK_0
+  if e.keyCode == Platform.keyCodes.VK_0 or e.keyCode == 8
     activeInput.backspace()
     recentlyPressedKey = null
     e.preventDefault()
@@ -152,7 +116,7 @@ onKeyDown = (e) ->
     else
       i = 0
       activeInput.addCharacter list[i++]
-      recentlyPressedKey = e.keyCode
+      recentlyPressedKey = if list.length > 1 then e.keyCode else null
       
 onKeyUp = (e) ->
   timeout = ->
@@ -188,7 +152,7 @@ class KeyboardView extends Backbone.View
   updateLayout: =>
     x = 0
     while x < 9
-      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].join('')}"
+      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].show}"
       ++x
 
   show:  ->
