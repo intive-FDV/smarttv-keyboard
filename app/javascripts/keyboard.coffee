@@ -77,7 +77,18 @@ pages = [
     VK_7: {loop: ['P','Q','R','S','7'], hold: '7', show: 'PQRS'}
     VK_8: {loop: ['T','U','V','8'],     hold: '8', show: 'TUV'}
     VK_9: {loop: ['W','X','Y','Z','9'], hold: '9', show: 'WXYZ'}
-  }
+  },
+  {
+    VK_1: {hold: '1'}
+    VK_2: {hold: '2'}
+    VK_3: {hold: '3'}
+    VK_4: {hold: '4'}
+    VK_5: {hold: '5'}
+    VK_6: {hold: '6'}
+    VK_7: {hold: '7'}
+    VK_8: {hold: '8'}
+    VK_9: {hold: '9'}
+    },
 ]
 
 activeInput = null
@@ -86,7 +97,12 @@ i = 0
 timeoutID = 0
 
 charsForKey  = (keyCode) ->
-  return pages[activePage][reverseKeyCodes[keyCode]].loop if reverseKeyCodes[keyCode]
+  return unless reverseKeyCodes[keyCode]
+  key = pages[activePage][reverseKeyCodes[keyCode]]
+  if key.loop
+    return key.loop
+  else if key.hold
+    return [key.hold]
 
 onKeyDown = (e) ->
   if e.keyCode == Platform.keyCodes.VK_0 or e.keyCode == 8
@@ -152,7 +168,7 @@ class KeyboardView extends Backbone.View
   updateLayout: =>
     x = 0
     while x < 9
-      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].show}"
+      @$("button:nth(#{x})").html "#{x + 1}</br>#{pages[activePage][keys[x]].show or ' '}"
       ++x
 
   show:  ->
