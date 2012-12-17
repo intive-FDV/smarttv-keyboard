@@ -8,32 +8,31 @@
 #TODO Add visual feedback when pressing a key.
 #TODO Add visual feedback when the current key pressed is looping (selecting or underlining the last character, for example)
 markup = ->
-  """
-    <div class="keyboard">
-        <!-- line 1 -->
-        <button class="VK_1">1</button>
-        <button class="VK_2">2</button>
-        <button class="VK_3">3</button>
-        <!-- line 2 -->
-        <button class="VK_4">4</button>
-        <button class="VK_5">5</button>
-        <button class="VK_6">6</button>
-        <!-- line 3 -->
-        <button class="VK_7">7</button>
-        <button class="VK_8">8</button>
-        <button class="VK_9">9</button>
-        <!-- line 4 -->
-        <button class="empty"></button>
-        <button class="VK_0">0<br>&#8592;</button>
-        <button class="empty"></button>
-        <div style="clear:both"></div>
-        <!-- line 5 -->
-        <button class="VK_RED colour">&#8592;</button>
-        <button class="VK_GREEN colour next"></button>
-        <button class="VK_YELLOW colour"></button>
-        <button class="VK_BLUE colour"></button>
-    </div>
-  """
+  ["<div class='keyboard'>",
+        "<!-- line 1 -->",
+        "<button class='VK_1'>1</button>",
+        "<button class='VK_2'>2</button>",
+        "<button class='VK_3'>3</button>",
+        "<!-- line 2 -->",
+        "<button class='VK_4'>4</button>",
+        "<button class='VK_5'>5</button>",
+        "<button class='VK_6'>6</button>",
+        "<!-- line 3 -->",
+        "<button class='VK_7'>7</button>",
+        "<button class='VK_8'>8</button>",
+        "<button class='VK_9'>9</button>",
+        "<!-- line 4 -->",
+        "<button class='empty'></button>",
+        "<button class='VK_0'>0<br>&#8592;</button>",
+        "<button class='empty'></button>",
+        "<div style='clear:both'></div>",
+        "<!-- line 5 -->",
+        "<button class='VK_RED colour'>&#8592;</button>",
+        "<button class='VK_GREEN colour next'></button>",
+        "<button class='VK_YELLOW colour'></button>",
+        "<button class='VK_BLUE colour'></button>",
+    "</div>"].join('')
+
 
 
 
