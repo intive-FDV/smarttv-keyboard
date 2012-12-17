@@ -299,10 +299,10 @@ else #in case of a browser, sets some needed keys to numeric keys
   Platform.keyCodes.VK_REWIND=   112  #F1
   Platform.keyCodes.VK_FAST_FWD= 113  #F2
 
-  Platform.keyCodes.VK_RED =     55 #7
-  Platform.keyCodes.VK_GREEN=    56 #8
-  Platform.keyCodes.VK_BLUE=     57 #9
-  Platform.keyCodes.VK_YELLOW=   48 #0
+  Platform.keyCodes.VK_RED =     114 #F3
+  Platform.keyCodes.VK_GREEN=    115 #F4
+  Platform.keyCodes.VK_BLUE=     116 #F6
+  Platform.keyCodes.VK_YELLOW=   117 #F7
 
   Platform.keyCodes.VK_BACK =    8 #Backspace
 
