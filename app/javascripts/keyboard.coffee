@@ -111,7 +111,7 @@ charsForKey  = (keyCode) ->
     return [key.hold]
 
 onKeyDown = (e) ->
-  if e.keyCode == Platform.keyCodes.VK_RED or e.keyCode == 8
+  if e.keyCode == Platform.keyCodes.VK_RED
     activeInput.backspace()
     recentlyPressedKey = null
     e.preventDefault()
@@ -120,7 +120,7 @@ onKeyDown = (e) ->
     recentlyPressedKey = null
     e.preventDefault()
     keyboardView.updateLayout()
-  else
+  else if reverseKeyCodes[e.keyCode]
     list = charsForKey(e.keyCode)
     return unless list?.length > 0
     e.preventDefault()
