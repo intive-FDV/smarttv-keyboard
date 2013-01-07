@@ -53,10 +53,8 @@ reverseKeyCodes[Platform.keyCodes.VK_7] = 'VK_7'
 reverseKeyCodes[Platform.keyCodes.VK_8] = 'VK_8'
 reverseKeyCodes[Platform.keyCodes.VK_9] = 'VK_9'
 
-activePage = 0
-
-pages = [
-  {
+type_pages = {
+  lowerCase: {
     show: 'ab'
     VK_1: {loop: ['.',',','1','@'],     hold: '1', show: '.,@'             }
     VK_2: {loop: ['a','b','c','2'],     hold: '2', show: 'abc'             }
@@ -69,7 +67,7 @@ pages = [
     VK_9: {loop: ['w','x','y','z','9'], hold: '9', show: 'wxyz'            }
     VK_0: {loop: [' ','0'],             hold: '0', show: '&lfloor;&rfloor;'}
   },
-  {
+  upperCase: {
     show: 'AB'
     VK_1: {loop: ['.',',','1','@'],     hold: '1', show: '.,@'             }
     VK_2: {loop: ['A','B','C','2'],     hold: '2', show: 'ABC'             }
@@ -82,20 +80,38 @@ pages = [
     VK_9: {loop: ['W','X','Y','Z','9'], hold: '9', show: 'WXYZ'            }
     VK_0: {loop: [' ','0'],             hold: '0', show: '&lfloor;&rfloor;'}
   },
-  {
-    show: '12'
-    VK_1: {hold: '1'}
-    VK_2: {hold: '2'}
-    VK_3: {hold: '3'}
-    VK_4: {hold: '4'}
-    VK_5: {hold: '5'}
-    VK_6: {hold: '6'}
-    VK_7: {hold: '7'}
-    VK_8: {hold: '8'}
-    VK_9: {hold: '9'}
-    VK_0: {hold: '0'}
-    },
-]
+  number: {
+      show: '12'
+      VK_1: {hold: '1'}
+      VK_2: {hold: '2'}
+      VK_3: {hold: '3'}
+      VK_4: {hold: '4'}
+      VK_5: {hold: '5'}
+      VK_6: {hold: '6'}
+      VK_7: {hold: '7'}
+      VK_8: {hold: '8'}
+      VK_9: {hold: '9'}
+      VK_0: {hold: '0'}
+    }
+}
+
+
+activePage = 0
+pages = []
+setPages = (inputType) ->
+  switch inputType
+    when 'number'
+      pages = [ type_pages['number'] ]
+    when 'phone'
+      pages = [ type_pages['number'] ]
+    else
+      # default = 'text'
+      pages = [
+        type_pages['lowerCase']
+        type_pages['upperCase']
+        type_pages['number']
+      ]
+  pages
 
 activeInput = null
 recentlyPressedKey = null
@@ -143,7 +159,7 @@ onKeyUp = (e) ->
 class Input extends Backbone.View
   events:
     'blur' : 'onFocusOut'
-  
+
   onFocusOut: =>
     @undelegateEvents()
     Keyboard.hide()
@@ -167,7 +183,7 @@ class KeyboardView extends Backbone.View
       @$(".#{key}").html "#{key.replace /VK_/, '' }<p>#{pages[activePage][key].show or '&nbsp;'}</p>"
     @$(".next").html "<div>#{pages[(1 + activePage) % pages.length].show}</div>"
 
-  show:  ->
+  show: ->
     @$el.show()
 
   hide: ->
@@ -177,10 +193,13 @@ class KeyboardView extends Backbone.View
     @hide()
     @updateLayout()
 
+    
 Keyboard.show = (input) ->
   window.addEventListener("keydown", onKeyDown, true);
   window.addEventListener("keyup", onKeyUp, true);
   activeInput = new Input el: input
+  setPages input.attributes.type.value
+  keyboardView.updateLayout()
   keyboardView.show()
 
 Keyboard.hide = ->
@@ -193,6 +212,7 @@ Keyboard.hide = ->
 
 #onLoad = ->
 $("body").append markup()
+pages = setPages 'text'
 keyboardView = new KeyboardView el: $(".keyboard")[0]
 window.Keyboard = Keyboard
 
