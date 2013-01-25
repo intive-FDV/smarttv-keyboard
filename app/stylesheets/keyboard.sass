@@ -1,44 +1,145 @@
+//
+//a
+//    margin: 0em
+//    font: -webkit-small-control
+//    color: initial
+//    letter-spacing: normal
+//    word-spacing: normal
+//    text-transform: none
+//    text-indent: 0px
+//    text-shadow: none
+//    display: inline-block
+//    text-align: -webkit-auto
+//    -webkit-box-align: center
+//    text-align: center
+//    cursor: default
+//    color: buttontext
+//    padding: 2px 6px 3px
+//    border: 2px outset buttonface
+//    border-image: initial
+//    background-color: buttonface
+//    //box-sizing: border-box
+//    padding: 1px 6px
+//
+//
+//.keyboard
+//    width: 30%
+//    background-color: #DDD
+//    display: block
+//    border: 2px groove #EEE
+//    border-radius: 10px 10px 0 0
+//    padding: 0.2% 0.2% 2%
+//    position: absolute
+//    bottom: 0
+//    right: 2%
+//    .key
+//        box-sizing: content-box
+//        width: 24.5%
+//        float: left
+//        margin-left: 3%
+//        margin-top: 2%
+//        background: #EDECFA
+//        border: 1px solid #ABCCFF
+//        border-radius: 5px
+//        padding: 2%
+//        font: 100 1.5em/.8em sans-serif
+//        text-align: left
+//        p
+//            font-size: .65em
+//            color: #003E94
+//            margin-top: 0.3em
+//            margin-bottom: 0
+//            clear: both
+//            display: block
+//    .key.empty
+//        visibility: hidden
+//    .key.colour
+//        width: 16.5%
+//        min-height: 1em
+//        color: #ddd
+//        div
+//            text-align: center
+//            font-size: .8em
+//    .key.VK_RED
+//        background-color: red
+//    .key.VK_YELLOW
+//        background-color: yellow
+//    .key.VK_GREEN
+//        background-color: green
+//    .key.VK_BLUE
+//        background-color: blue
+
+
+//.key
+//    margin: 0em
+//    //color: initial
+//    letter-spacing: normal
+//    word-spacing: normal
+//    text-transform: none
+//    text-indent: 0px
+//    text-shadow: none
+//    display: inline-block
+//    //text-align: -webkit-auto
+//    //-webkit-box-align: center
+//    text-align: center
+//    cursor: default
+//    //color: buttontext
+//    padding: 2px 6px 3px
+//    border: 2px outset buttonface
+//    border-image: initial
+//    background-color: buttonface
+//    //box-sizing: border-box
+//    padding: 1px 6px
+
 .keyboard
-    width: 30%
-    background-color: #DDD
+    width: 280px
+    //height: 240px
+    background-color: #000
     display: block
-    border: 2px groove #EEE
-    border-radius: 10px 10px 0 0
-    padding: 0.2% 0.2% 2%
+    border: 2px groove #eeeeee
+    padding: 10px
     position: absolute
-    bottom: 0
-    right: 2%
-    button
-        width: 29.5%
+    top: 0px
+    //left: $screenWidth - $kWidht
+    right: 1px
+    z-index: 100000
+    border-radius: 8px // 8px 0 0
+    .key
+        box-sizing: content-box
+        width: 24.5%
         float: left
         margin-left: 3%
         margin-top: 2%
-        background: #EDECFA
-        border: 1px solid #ABCCFF
+        background: #333
+        border: 1px solid #CCC
         border-radius: 5px
         padding: 2%
-        font: 100 1.5em/.8em sans-serif
+        font: normal 1.21em/0.8em Arial
         text-align: left
+        color: #FFF
         p
-            font-size: .65em
-            color: #003E94
+            font-size: 0.65em
+            color: white
+            margin: 0
             margin-top: 0.3em
             clear: both
             display: block
-    button.empty
+            letter-spacing: 2px
+
+    .key.empty
         visibility: hidden
-    button.colour
-        width: 21.5%
+    .key.colour
+        width: 16.5%
         min-height: 1em
-        color: #ddd
+        color: #dddddd
         div
             text-align: center
-            font-size: .8em
-    button.VK_RED
+            font-size: 0.8em
+    .key.VK_RED
         background-color: red
-    button.VK_YELLOW
+    .key.VK_YELLOW
         background-color: yellow
-    button.VK_GREEN
+    .key.VK_GREEN
         background-color: green
-    button.VK_BLUE
+    .key.VK_BLUE
         background-color: blue

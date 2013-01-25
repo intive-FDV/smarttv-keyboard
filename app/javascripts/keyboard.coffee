@@ -10,29 +10,29 @@
 markup = ->
   ["<div class='keyboard'>",
         "<!-- line 1 -->",
-        "<button class='VK_1'>1</button>",
-        "<button class='VK_2'>2</button>",
-        "<button class='VK_3'>3</button>",
+        "<a class='VK_1 key'>1</a>",
+        "<a class='VK_2 key'>2</a>",
+        "<a class='VK_3 key'>3</a>",
         "<!-- line 2 -->",
-        "<button class='VK_4'>4</button>",
-        "<button class='VK_5'>5</button>",
-        "<button class='VK_6'>6</button>",
+        "<a class='VK_4 key'>4</a>",
+        "<a class='VK_5 key'>5</a>",
+        "<a class='VK_6 key'>6</a>",
         "<!-- line 3 -->",
-        "<button class='VK_7'>7</button>",
-        "<button class='VK_8'>8</button>",
-        "<button class='VK_9'>9</button>",
+        "<a class='VK_7 key'>7</a>",
+        "<a class='VK_8 key'>8</a>",
+        "<a class='VK_9 key'>9</a>",
         "<!-- line 4 -->",
-        "<button class='empty'></button>",
-        "<button class='VK_0'>0<br>&#8592;</button>",
-        "<button class='empty'></button>",
+        "<a class='empty key'></a>",
+        "<a class='VK_0 key'>0<br>&#8592;</a>",
+        "<a class='empty key'></a>",
         "<div style='clear:both'></div>",
         "<!-- line 5 -->",
-        "<button class='VK_RED colour'>&#8592;</button>",
-        "<button class='VK_GREEN colour next'></button>",
-        "<button class='VK_YELLOW colour'></button>",
-        "<button class='VK_BLUE colour'></button>",
+        "<a class='VK_RED colour key'>&#8592;</a>",
+        "<a class='VK_GREEN colour next key'></a>",
+        "<a class='VK_YELLOW colour key'></a>",
+        "<a class='VK_BLUE colour key'></a>",
+        "<div style='clear:both'></div>",
     "</div>"].join('')
-
 
 
 
@@ -164,16 +164,16 @@ class Input extends Backbone.View
     @undelegateEvents()
     Keyboard.hide()
     
-  addCharacter: (char) =>
-    value = @$el.val() + char
+  addCharacter: (character) =>
+    value = @$el.val() + character
     @$el.val value
 
   backspace: =>
     @replaceLast ''
 
-  replaceLast: (char) =>
+  replaceLast: (character) =>
     value = @$el.val()
-    @$el.val value.replace /.$/, char
+    @$el.val value.replace /.$/, character
 
 keys = ['VK_1','VK_2','VK_3','VK_4','VK_5','VK_6','VK_7','VK_8','VK_9','VK_0']
 
@@ -198,7 +198,9 @@ Keyboard.show = (input) ->
   window.addEventListener("keydown", onKeyDown, true);
   window.addEventListener("keyup", onKeyUp, true);
   activeInput = new Input el: input
-  setPages input.attributes.type.value
+
+  setPages if input.attributes.type then input.attributes.type.value else 'text'
+
   keyboardView.updateLayout()
   keyboardView.show()
 
